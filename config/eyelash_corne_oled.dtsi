@@ -1,0 +1,31 @@
+/*
+ * This board ships with 128x32 SSD1306 OLED screens, not the nice!view
+ * the vendor repo builds for. Settings read from the factory firmware:
+ * I2C at 0x3C on P0.17 (SDA) and P0.20 (SCL), same as a standard Corne.
+ */
+
+&pro_micro_i2c {
+    status = "okay";
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        width = <128>;
+        height = <32>;
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <31>;
+        segment-remap;
+        com-invdir;
+        com-sequential;
+        inversion-on;
+        prechargep = <0x22>;
+    };
+};
+
+/ {
+    chosen {
+        zephyr,display = &oled;
+    };
+};
